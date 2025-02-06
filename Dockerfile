@@ -18,6 +18,10 @@ ARG	BASE_IMAGE_TAG="20.04"
 FROM $BASE_IMAGE:$BASE_IMAGE_TAG
 LABEL MAINTAINER=raymondstrose@hotmail.com
 
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LC_ALL=C
+ENV container=docker
+
 # Install open-iscsi for Longhorn.
 #RUN apt-get update && apt-get install -y open-iscsi sudo systemctl snapd systemd
 RUN apt-get update && apt-get install -y open-iscsi sudo snapd systemd
@@ -36,4 +40,22 @@ RUN apt-get clean all
 # Copy the entrypoint into the container.
 COPY entrypoint /home/microk8s/entrypoint
 
-ENTRYPOINT ["/home/microk8s/entrypoint", "--debug", "--verbose"]
+#RUN /bin/sh -c rm -f /lib/systemd/system/multi-user.target.wants/*     /etc/systemd/system/*.wants/*     /lib/systemd/system/local-fs.target.wants/*     /lib/systemd/system/sockets.target.wants/*udev*     /lib/systemd/system/sockets.target.wants/*initctl*     /lib/systemd/system/basic.target.wants/*     /lib/systemd/system/anaconda.target.wants/*     /lib/systemd/system/plymouth*     /lib/systemd/system/systemd-update-utmp*
+RUN rm -f /lib/systemd/system/multi-user.target.wants/*	\
+	/etc/systemd/system/*.wants/*	\
+	/lib/systemd/system/local-fs.target.wants/*	\
+	/lib/systemd/system/sockets.target.wants/*udev*	\
+	/lib/systemd/system/sockets.target.wants/*initctl*	\
+	/lib/systemd/system/basic.target.wants/*	\
+	/lib/systemd/system/anaconda.target.wants/*	\
+	/lib/systemd/system/plymouth*	\
+	/lib/systemd/system/systemd-update-utmp*
+RUN cd /lib/systemd/system/sysinit.target.wants/ && rm $(ls | grep -v systemd-tmpfiles-setup)
+#RUN /bin/sh -c cd /lib/systemd/system/sysinit.target.wants/     && rm $(ls | grep -v systemd-tmpfiles-setup)
+
+VOLUME [/sys/fs/cgroup]
+
+#ENTRYPOINT ["/home/microk8s/entrypoint", "--debug", "--verbose"]
+ENTRYPOINT ["/lib/systemd/systemd"]
+#CMD ["/lib/systemd/systemd"]
+CMD ["/home/microk8s/entrypoint", "--debug", "--verbose"]
