@@ -1,5 +1,5 @@
 Issues
-======
+------
 - The container fails on start as follows:
 ```
 % docker run -it --tmpfs /tmp --tmpfs /run --tmpfs /run/lock  raymondstrose/microk8s:ubuntu-20.04
@@ -15,3 +15,7 @@ Failed to allocate manager object: Read-only file system
 [!!!!!!] Failed to allocate manager object.
 Exiting PID 1...# microk8s
 ```
+Further Reading
+---------------
+- [Canonical Kubernetes for multi-cloud operations](https://ubuntu.com/kubernetes)
+- [DockerHub: jrei/systemd-ubuntu)(https://hub.docker.com/r/jrei/systemd-ubuntu)
