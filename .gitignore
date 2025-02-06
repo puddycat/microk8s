@@ -1,0 +1,6 @@
+etc/*
+var/*
+.*.sw?
+*.log
+.vscode
+*.out
