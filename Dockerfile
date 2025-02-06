@@ -18,14 +18,15 @@ ARG	BASE_IMAGE_TAG="20.04"
 FROM $BASE_IMAGE:$BASE_IMAGE_TAG
 LABEL MAINTAINER=raymondstrose@hotmail.com
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV LC_ALL=C
 ENV container=docker
+ENV LC_ALL=C
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install open-iscsi for Longhorn.
 #RUN apt-get update && apt-get install -y open-iscsi sudo systemctl snapd systemd
 RUN apt-get update && apt-get install -y open-iscsi sudo snapd systemd
 
+RUN apt-get update && apt-get install -y systemd systemd-sysv && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN apt-get clean all
 
 #RUN sudo snap install microk8s --classic
@@ -56,6 +57,6 @@ RUN cd /lib/systemd/system/sysinit.target.wants/ && rm $(ls | grep -v systemd-tm
 VOLUME [/sys/fs/cgroup]
 
 #ENTRYPOINT ["/home/microk8s/entrypoint", "--debug", "--verbose"]
-ENTRYPOINT ["/lib/systemd/systemd"]
-#CMD ["/lib/systemd/systemd"]
+#ENTRYPOINT ["/lib/systemd/systemd"]
 CMD ["/home/microk8s/entrypoint", "--debug", "--verbose"]
+CMD ["/lib/systemd/systemd"]
