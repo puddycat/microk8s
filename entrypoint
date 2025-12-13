@@ -3,22 +3,22 @@
 # microk8s/entrypoint
 #
 
-# Unmask, enable and start snapd
-sudo systemctl unmask snapd.service;
-sudo systemctl enable snapd.service;
-sudo systemctl start snapd.service;
+## Unmask, enable and start snapd
+#sudo systemctl unmask snapd.service;
+#sudo systemctl enable snapd.service;
+#sudo systemctl start snapd.service;
 
-sudo snap install microk8s --classic;
+#sudo snap install microk8s --classic;
+#
+#microk8s status --wait-ready;
+#
+#microk8s enable dashboard;
+#microk8s enable dns;
+#microk8s enable registry;
+#microk8s enable istio;
 
-microk8s status --wait-ready;
+while true; do
+	sleep 5;
+done;
 
-microk8s enable dashboard;
-microk8s enable dns;
-microk8s enable registry;
-microk8s enable istio;
-
-#while true; do
-#	sleep 5'
-#done;
-
-exec /usr/bin/systemd
+#exec /usr/bin/systemd

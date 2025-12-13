@@ -37,7 +37,7 @@ build_docker_image ()
 {
 	TARGET_VERSION="${DOCKER_IMAGE_TAG}";
 	[ ! "$DST_IMAGE" ] && DST_IMAGE="$DOCKER_IMAGE_PREFIX$DOCKER_IMAGE_NAME:$TARGET_VERSION";
-	[ ! "$BASE_IMAGE" ] && BASE_IMAGE="ubuntu";
+	[ ! "$BASE_IMAGE" ] && BASE_IMAGE="debian";
 	[ ! "$BASE_IMAGE_TAG" ] && BASE_IMAGE_TAG="$TERRAFORM_RELEASE";
 	[ ! "$DOCKERFILE" ] && DOCKERFILE="$INSTALL_DIR/Dockerfile";
 
@@ -146,15 +146,19 @@ main ()
 				export DOCKER_ARCH="$DOCKER_ARCH";
 				export BUILDX_ENABLE=true;
 				#export BUILDX_PLATFORMS="linux/amd64,linux/arm64,linux/arm/v7";
-				export BUILDX_PLATFORMS="linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8";
+				#export BUILDX_PLATFORMS="linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8";
+				export BUILDX_PLATFORMS="linux/amd64,linux/arm64";
 				export LOCAL_BUILDER_NAME="orbstack";
 				#export LOCAL_BUILDER_NAME="local-builder";
 				export MACOS_UNLOCK_KEYCHAIN=false;
 
-				export RELEASE="focal";
-				export VERSION="20.04";
+				#export RELEASE="focal";
+				#export VERSION="20.04";
+				export RELEASE="bookworm-slim";
+				export VERSION="12.9-slim";
 
-				export BASE_IMAGE="ubuntu";
+				#export BASE_IMAGE="ubuntu";
+				export BASE_IMAGE="debian";
 				export BASE_IMAGE_TAG="\$VERSION";
 
 				export RELEASE_URL="https://cloud-images.ubuntu.com/releases/$VERSION/release";
